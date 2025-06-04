@@ -1,0 +1,856 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CyberSec Pulse Search (POC)</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;700&family=Oswald:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>⚡</text></svg>">
+    <style>
+        /* Custom Properties for easy theme changes */
+:root {
+    --bg-color: #0d1117; /* Dark GitHub-like background */
+    --text-color: #e6edf3; /* Light grey for main text */
+    --primary-accent: #00ffc8; /* Bright neon green/cyan */
+    --secondary-accent: #8be9fd; /* Lighter blue */
+    --card-bg: #161b22; /* Slightly lighter dark for cards */
+    --border-color: #30363d; /* Dark grey border */
+    --shadow-color: rgba(0, 255, 200, 0.15); /* Greenish shadow */
+    --error-color: #ff6347; /* Tomato red for errors */
+}
+
+/* Base Styles */
+body {
+    font-family: 'Roboto Mono', monospace; /* Terminal-like font */
+    line-height: 1.6;
+    margin: 0;
+    padding: 0;
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    display: flex;
+    justify-content: center;
+    align-items: flex-start; /* Align top for scrollable content */
+    min-height: 100vh;
+    overflow-x: hidden; /* Prevent horizontal scroll */
+}
+
+/* General Container for App */
+.app-container {
+    width: 100%;
+    max-width: 1200px; /* Wider for enterprise feel */
+    padding: 20px;
+    box-sizing: border-box;
+    transition: opacity 0.5s ease-in-out;
+}
+
+.app-container.hidden {
+    opacity: 0;
+    pointer-events: none;
+}
+
+/* Loading Overlay */
+.loading-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: var(--bg-color);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    transition: opacity 0.8s ease-out;
+}
+
+.loading-overlay.hidden {
+    opacity: 0;
+    pointer-events: none;
+}
+
+.spinner {
+    border: 4px solid var(--border-color);
+    border-top: 4px solid var(--primary-accent);
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    animation: spin 1.5s linear infinite;
+    margin-bottom: 20px;
+}
+
+.loading-text {
+    font-size: 1.2em;
+    color: var(--secondary-accent);
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+
+/* Page Sections (Home vs. Results) */
+.page-section {
+    width: 100%;
+    min-height: calc(100vh - 40px); /* Fill screen minus padding */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    transition: opacity 0.5s ease-in-out, transform 0.5s ease-in-out;
+    position: absolute; /* Allow overlapping for transitions */
+    top: 0;
+    left: 0;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+.page-section.hidden {
+    opacity: 0;
+    pointer-events: none;
+    transform: translateY(20px);
+}
+
+.page-section.active {
+    opacity: 1;
+    pointer-events: all;
+    transform: translateY(0);
+    position: relative; /* Take up space when active */
+}
+
+/* Home Page Specifics */
+.hero-section {
+    text-align: center;
+    padding: 50px 20px;
+    width: 100%;
+    max-width: 800px;
+    background: linear-gradient(145deg, var(--card-bg) 0%, #1a202c 100%);
+    border-radius: 10px;
+    box-shadow: 0 0 30px var(--shadow-color);
+    margin-bottom: 40px;
+    position: relative;
+    overflow: hidden; /* For pseudo-element effects */
+}
+
+/* Glitch effect for title */
+.glitch-text {
+    font-family: 'Oswald', sans-serif;
+    font-size: 5em;
+    font-weight: 700;
+    color: var(--primary-accent);
+    position: relative;
+    text-transform: uppercase;
+    text-shadow: 0 0 10px var(--primary-accent);
+    animation: flicker 3s infinite alternate;
+    letter-spacing: 5px;
+    margin-bottom: 20px;
+}
+
+.glitch-text span {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: var(--bg-color);
+    overflow: hidden;
+    clip: rect(0, 900px, 0, 0); /* Initial clip to hide */
+}
+
+.glitch-text span:nth-child(1) {
+    animation: glitch-skew 1s infinite alternate, glitch-anim 2.5s infinite alternate-reverse;
+    left: -2px;
+    text-shadow: 0 0 10px rgba(255, 0, 0, 0.7);
+}
+
+.glitch-text span:nth-child(2) {
+    animation: glitch-skew 1.5s infinite alternate-reverse, glitch-anim 2s infinite alternate;
+    left: 2px;
+    text-shadow: 0 0 10px rgba(0, 255, 255, 0.7);
+}
+
+@keyframes glitch-anim {
+    0% { clip: rect(20px, 9999px, 80px, 0); }
+    10% { clip: rect(100px, 9999px, 10px, 0); }
+    20% { clip: rect(70px, 9999px, 50px, 0); }
+    30% { clip: rect(120px, 9999px, 30px, 0); }
+    40% { clip: rect(40px, 9999px, 90px, 0); }
+    50% { clip: rect(60px, 9999px, 20px, 0); }
+    60% { clip: rect(90px, 9999px, 70px, 0); }
+    70% { clip: rect(30px, 9999px, 110px, 0); }
+    80% { clip: rect(110px, 9999px, 60px, 0); }
+    90% { clip: rect(50px, 9999px, 120px, 0); }
+    100% { clip: rect(80px, 9999px, 40px, 0); }
+}
+
+@keyframes glitch-skew {
+    0% { transform: skewX(0deg); }
+    25% { transform: skewX(5deg); }
+    50% { transform: skewX(-5deg); }
+    75% { transform: skewX(2deg); }
+    100% { transform: skewX(0deg); }
+}
+
+@keyframes flicker {
+    0%, 19%, 21%, 23%, 25%, 54%, 56%, 100% {
+        text-shadow: 0 0 10px var(--primary-accent), 0 0 20px var(--primary-accent), 0 0 30px var(--primary-accent);
+    }
+    20%, 24%, 55% {
+        text-shadow: none;
+    }
+}
+
+
+.tagline {
+    font-size: 1.2em;
+    color: var(--secondary-accent);
+    margin-bottom: 30px;
+    min-height: 1.2em; /* Prevent layout shift */
+}
+
+/* Typewriter animation for tagline */
+.type-animation {
+    overflow: hidden; /* Ensures the content is not revealed until the animation */
+    white-space: nowrap; /* Keeps the content on a single line */
+    margin: 0 auto; /* Gives that scrolling effect as the typing happens */
+    letter-spacing: .05em; /* Adjust as needed */
+    animation:
+        typing 4s steps(40, end),
+        blink-caret .75s step-end infinite;
+}
+
+/* The typing effect */
+@keyframes typing {
+    from { width: 0 }
+    to { width: 100% }
+}
+
+/* The typewriter cursor effect */
+@keyframes blink-caret {
+    from, to { border-color: transparent }
+    50% { border-color: var(--primary-accent); }
+}
+
+
+.search-box-container {
+    display: flex;
+    gap: 10px;
+    width: 100%;
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.search-box-container input[type="text"] {
+    flex-grow: 1;
+    padding: 15px 20px;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    background-color: var(--bg-color);
+    color: var(--primary-accent);
+    font-size: 1.1em;
+    font-family: 'Roboto Mono', monospace;
+    transition: all 0.3s ease;
+}
+
+.search-box-container input[type="text"]::placeholder {
+    color: var(--secondary-accent);
+    opacity: 0.7;
+}
+
+.search-box-container input[type="text"]:focus {
+    outline: none;
+    border-color: var(--primary-accent);
+    box-shadow: 0 0 15px var(--shadow-color);
+    background-color: #0c1015;
+}
+
+.animated-button {
+    padding: 15px 25px;
+    background-color: var(--primary-accent);
+    color: var(--bg-color); /* Dark text on bright button */
+    border: none;
+    border-radius: 8px;
+    font-size: 1.1em;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    box-shadow: 0 0 10px var(--primary-accent); /* Glow effect */
+}
+
+.animated-button .icon {
+    font-size: 1.2em;
+    line-height: 1;
+}
+
+.animated-button:hover {
+    background-color: var(--secondary-accent);
+    color: var(--bg-color);
+    box-shadow: 0 0 20px var(--secondary-accent);
+    transform: translateY(-2px) scale(1.02);
+}
+
+.animated-button:active {
+    transform: translateY(0);
+    box-shadow: 0 0 5px var(--primary-accent);
+}
+
+.quick-links {
+    text-align: center;
+    margin-top: 40px;
+    width: 100%;
+    max-width: 800px;
+}
+
+.quick-links h2 {
+    color: var(--secondary-accent);
+    font-size: 1.8em;
+    margin-bottom: 25px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+}
+
+.tags-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 15px;
+}
+
+.tag-chip {
+    background-color: var(--card-bg);
+    border: 1px solid var(--primary-accent);
+    color: var(--primary-accent);
+    padding: 10px 20px;
+    border-radius: 25px;
+    font-size: 0.9em;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 0 8px var(--primary-accent) inset;
+}
+
+.tag-chip:hover {
+    background-color: var(--primary-accent);
+    color: var(--bg-color);
+    transform: translateY(-3px) scale(1.05);
+    box-shadow: 0 0 15px var(--primary-accent);
+}
+
+/* Results Page Specifics */
+.results-header {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 15px 0;
+    border-bottom: 1px solid var(--border-color);
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+    gap: 15px;
+}
+
+.results-header .logo {
+    font-family: 'Oswald', sans-serif;
+    font-size: 1.8em;
+    font-weight: 700;
+    color: var(--primary-accent);
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    cursor: pointer;
+    transition: color 0.3s ease;
+}
+
+.results-header .logo:hover {
+    color: var(--secondary-accent);
+}
+
+.results-header .search-box-container.small {
+    flex-grow: 1;
+    max-width: 600px;
+}
+
+.results-header .search-box-container.small input {
+    padding: 10px 15px; /* Smaller padding */
+    font-size: 0.95em;
+}
+
+.results-header .search-box-container.small button {
+    padding: 10px 20px; /* Smaller padding */
+    font-size: 0.95em;
+}
+
+
+#searchResults {
+    width: 100%;
+}
+
+.result-card {
+    background-color: var(--card-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    padding: 25px;
+    margin-bottom: 15px;
+    box-shadow: 0 4px 15px var(--shadow-color);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.result-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 3px;
+    height: 100%;
+    background-color: var(--primary-accent);
+    transform: scaleY(0);
+    transform-origin: top;
+    transition: transform 0.3s ease-out;
+}
+
+.result-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 25px var(--shadow-color);
+}
+
+.result-card:hover::before {
+    transform: scaleY(1);
+}
+
+.result-card h3 {
+    margin-top: 0;
+    margin-bottom: 10px;
+    font-size: 1.6em;
+    color: var(--primary-accent);
+}
+
+.result-card h3 a {
+    text-decoration: none;
+    color: var(--primary-accent);
+    transition: color 0.3s ease;
+}
+
+.result-card h3 a:hover {
+    color: var(--secondary-accent);
+    text-decoration: underline;
+}
+
+.result-card p {
+    margin-bottom: 8px;
+    font-size: 1em;
+    color: var(--text-color);
+}
+
+.result-card strong {
+    color: var(--secondary-accent);
+}
+
+.result-card .tags {
+    margin-top: 15px;
+    border-top: 1px dashed var(--border-color);
+    padding-top: 10px;
+}
+
+.result-card .tags span {
+    display: inline-block;
+    background-color: rgba(0, 255, 200, 0.2); /* Semi-transparent accent */
+    color: var(--primary-accent);
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-size: 0.85em;
+    margin-right: 8px;
+    margin-bottom: 8px;
+    text-transform: capitalize;
+    transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.result-card .tags span:hover {
+    background-color: var(--primary-accent);
+    color: var(--bg-color);
+}
+
+.result-card .highlight {
+    background-color: #aaff0040; /* Semi-transparent yellow-green */
+    color: var(--primary-accent);
+    padding: 2px 4px;
+    border-radius: 3px;
+}
+
+.initial-message {
+    text-align: center;
+    color: var(--secondary-accent);
+    font-style: italic;
+    margin-top: 50px;
+    font-size: 1.1em;
+}
+
+.error-message {
+    color: var(--error-color);
+    font-weight: bold;
+    text-align: center;
+    margin-top: 50px;
+    font-size: 1.2em;
+}
+
+footer {
+    text-align: center;
+    margin-top: 40px;
+    padding-top: 20px;
+    border-top: 1px solid var(--border-color);
+    color: var(--secondary-accent);
+    font-size: 0.85em;
+}
+
+.disclaimer {
+    margin-top: 10px;
+    font-size: 0.75em;
+    opacity: 0.7;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+    .glitch-text {
+        font-size: 3em;
+    }
+    .tagline {
+        font-size: 1em;
+    }
+    .search-box-container {
+        flex-direction: column;
+        align-items: stretch;
+    }
+    .animated-button {
+        margin-top: 10px;
+        justify-content: center;
+    }
+    .hero-section {
+        padding: 30px 15px;
+    }
+    .quick-links h2 {
+        font-size: 1.5em;
+    }
+    .tag-chip {
+        padding: 8px 15px;
+        font-size: 0.8em;
+    }
+    .results-header {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+    }
+    .results-header .search-box-container.small {
+        width: 100%;
+        max-width: none;
+    }
+    .results-header .logo {
+        margin-bottom: 10px;
+    }
+    .result-card {
+        padding: 15px;
+    }
+    .result-card h3 {
+        font-size: 1.3em;
+    }
+}
+
+@media (max-width: 480px) {
+    .glitch-text {
+        font-size: 2.2em;
+        letter-spacing: 2px;
+    }
+    .tagline {
+        font-size: 0.9em;
+    }
+    .animated-button {
+        font-size: 1em;
+        padding: 12px 20px;
+    }
+    .tag-chip {
+        font-size: 0.75em;
+        padding: 6px 12px;
+    }
+    .results-header .logo {
+        font-size: 1.5em;
+    }
+    .result-card h3 {
+        font-size: 1.1em;
+    }
+}
+    </style>
+</head>
+<body>
+    <div id="loadingOverlay" class="loading-overlay">
+        <div class="spinner"></div>
+        <div class="loading-text">Initializing CyberSec Pulse...</div>
+    </div>
+
+    <div id="appContainer" class="app-container hidden">
+        <section id="homePage" class="page-section active">
+            <div class="hero-section">
+                <div class="glitch-text">
+                    <span aria-hidden="true">CYBERSEC PULSE</span>
+                    CYBERSEC PULSE
+                    <span aria-hidden="true">CYBERSEC PULSE</span>
+                </div>
+                <p class="tagline type-animation">Accessing critical cybersecurity intelligence...</p>
+
+                <div class="search-box-container">
+                    <input type="text" id="homeSearchInput" placeholder="Enter your query (e.g., 'DFIR tools', 'OSINT techniques', 'malware analysis')">
+                    <button id="homeSearchButton" class="animated-button">
+                        <span class="icon">⚡</span> Scan & Search
+                    </button>
+                </div>
+            </div>
+            <div class="quick-links">
+                <h2>Quick Scans:</h2>
+                <div class="tags-container">
+                    <span class="tag-chip" data-query="OSINT">OSINT</span>
+                    <span class="tag-chip" data-query="DFIR">DFIR</span>
+                    <span class="tag-chip" data-query="Red Team">Red Team</span>
+                    <span class="tag-chip" data-query="SOC">SOC</span>
+                    <span class="tag-chip" data-query="Malware Analysis">Malware Analysis</span>
+                    <span class="tag-chip" data-query="Threat Intelligence">Threat Intelligence</span>
+                    <span class="tag-chip" data-query="Vulnerability">Vulnerability</span>
+                </div>
+            </div>
+        </section>
+
+        <section id="resultsPage" class="page-section hidden">
+            <header class="results-header">
+                <div class="logo" id="resultsPageLogo">
+                    <span class="icon">⚡</span> CyberSec Pulse
+                </div>
+                <div class="search-box-container small">
+                    <input type="text" id="resultsSearchInput" placeholder="Refine your search...">
+                    <button id="resultsSearchButton" class="animated-button">
+                        <span class="icon">🔍</span> Search
+                    </button>
+                </div>
+            </header>
+
+            <main id="searchResults">
+                </main>
+
+            <footer>
+                <p>&copy; 2025 CyberSec Pulse POC | Master's Project</p>
+                <p class="disclaimer">Disclaimer: This is a Proof of Concept (POC) for educational purposes, simulating a specialized cybersecurity search engine.</p>
+            </footer>
+        </section>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+    // DOM Elements
+    const loadingOverlay = document.getElementById('loadingOverlay');
+    const appContainer = document.getElementById('appContainer');
+    const homePage = document.getElementById('homePage');
+    const resultsPage = document.getElementById('resultsPage');
+
+    const homeSearchInput = document.getElementById('homeSearchInput');
+    const homeSearchButton = document.getElementById('homeSearchButton');
+    const resultsSearchInput = document.getElementById('resultsSearchInput');
+    const resultsSearchButton = document.getElementById('resultsSearchButton');
+    const searchResultsDiv = document.getElementById('searchResults');
+    const resultsPageLogo = document.getElementById('resultsPageLogo');
+    const tagChips = document.querySelectorAll('.tag-chip');
+
+    let knowledgeBase = []; // Will hold your data from data.json
+
+    // --- Core Functions ---
+
+    // Function to load the cybersecurity knowledge base from data.json
+    async function loadKnowledgeBase() {
+        try {
+            // Assumes data.json is in the same directory (GitHub Pages friendly)
+            const response = await fetch('data.json');
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            knowledgeBase = await response.json();
+            console.log('Knowledge base loaded:', knowledgeBase);
+        } catch (error) {
+            console.error('Error loading knowledge base:', error);
+            searchResultsDiv.innerHTML = `<p class="error-message">
+                Critical Error: Could not load knowledge base. Please check data.json.
+            </p>`;
+            // Hide loading overlay even on error
+            hideLoadingOverlay();
+            // Show app container but with error message
+            appContainer.classList.remove('hidden');
+            return;
+        }
+
+        // Simulate a small delay for the "loading" animation
+        setTimeout(() => {
+            hideLoadingOverlay();
+            appContainer.classList.remove('hidden'); // Show app after loading
+        }, 1000); // 1 second delay
+    }
+
+    // Function to hide the loading overlay
+    function hideLoadingOverlay() {
+        loadingOverlay.classList.add('hidden');
+    }
+
+    // Function to switch between home and results view
+    function showPage(pageToShow) {
+        homePage.classList.add('hidden');
+        resultsPage.classList.add('hidden');
+
+        if (pageToShow === 'home') {
+            homePage.classList.remove('hidden');
+            homePage.classList.add('active');
+            resultsPage.classList.remove('active');
+        } else if (pageToShow === 'results') {
+            resultsPage.classList.remove('hidden');
+            resultsPage.classList.add('active');
+            // Ensure results input has the current query
+            resultsSearchInput.value = homeSearchInput.value;
+        }
+        // Scroll to top when switching pages
+        window.scrollTo(0, 0);
+    }
+
+    // Function to display the search results with highlighting
+    function displayResults(results, query = '') {
+        searchResultsDiv.innerHTML = ''; // Clear previous results
+        const lowerCaseQuery = query.toLowerCase().trim();
+
+        if (results.length === 0) {
+            searchResultsDiv.innerHTML = `<p class="initial-message">
+                No intelligence found for "${query}". Try a different keyword or broaden your search.
+            </p>`;
+            return;
+        }
+
+        results.forEach(item => {
+            const resultCard = document.createElement('div');
+            resultCard.className = 'result-card';
+
+            // Function to highlight a string if it contains the query
+            const highlightText = (text, q) => {
+                if (!q) return text;
+                const regex = new RegExp(`(${q.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')})`, 'gi'); // Escape special chars
+                return text.replace(regex, '<span class="highlight">$1</span>');
+            };
+
+            const highlightedTitle = highlightText(item.title, lowerCaseQuery);
+            const highlightedDescription = highlightText(item.description, lowerCaseQuery);
+
+            const tagsHtml = item.tags.map(tag => {
+                // Also highlight tags if they match
+                const highlightedTag = highlightText(tag, lowerCaseQuery);
+                return `<span>${highlightedTag}</span>`;
+            }).join('');
+
+            resultCard.innerHTML = `
+                <h3><a href="${item.link}" target="_blank" rel="noopener noreferrer">${highlightedTitle}</a></h3>
+                <p>${highlightedDescription}</p>
+                <p><strong>Category:</strong> ${highlightText(item.category, lowerCaseQuery)}</p>
+                <p><strong>Source:</strong> ${highlightText(item.source, lowerCaseQuery)}</p>
+                <p class="tags"><strong>Tags:</strong> ${tagsHtml}</p>
+            `;
+            searchResultsDiv.appendChild(resultCard);
+        });
+    }
+
+    // Function to perform the search based on user input
+    function performSearch(query) {
+        const lowerCaseQuery = query.toLowerCase().trim();
+
+        // If query is empty, display all results
+        if (lowerCaseQuery === '') {
+            displayResults(knowledgeBase);
+            showPage('results');
+            return;
+        }
+
+        // Basic relevance scoring
+        const scoredResults = knowledgeBase.map(item => {
+            let score = 0;
+            const itemText = (item.title + ' ' + item.description + ' ' + item.category + ' ' + item.source + ' ' + item.tags.join(' ')).toLowerCase();
+
+            if (item.title.toLowerCase().includes(lowerCaseQuery)) {
+                score += 10; // High score for title match
+            }
+            if (item.description.toLowerCase().includes(lowerCaseQuery)) {
+                score += 5; // Medium score for description
+            }
+            if (item.category.toLowerCase().includes(lowerCaseQuery)) {
+                score += 7; // Good score for category
+            }
+            if (item.source.toLowerCase().includes(lowerCaseQuery)) {
+                score += 3; // Lower score for source
+            }
+            if (item.tags.some(tag => tag.toLowerCase().includes(lowerCaseQuery))) {
+                score += 8; // Good score for tag match
+            }
+
+            // Fallback: If no direct match in specific fields, check general text content
+            if (score === 0 && itemText.includes(lowerCaseQuery)) {
+                score += 1;
+            }
+
+            return { item, score };
+        }).filter(result => result.score > 0) // Only include items with a score
+          .sort((a, b) => b.score - a.score) // Sort by score descending
+          .map(result => result.item); // Return just the item
+
+        displayResults(scoredResults, lowerCaseQuery);
+        showPage('results');
+    }
+
+    // --- Event Listeners ---
+
+    // Home Page Search Button
+    homeSearchButton.addEventListener('click', () => {
+        performSearch(homeSearchInput.value);
+    });
+
+    // Home Page Search Input (Enter key)
+    homeSearchInput.addEventListener('keyup', (event) => {
+        if (event.key === 'Enter') {
+            performSearch(homeSearchInput.value);
+        }
+    });
+
+    // Quick Scan Tag Chips
+    tagChips.forEach(chip => {
+        chip.addEventListener('click', (event) => {
+            const query = event.target.dataset.query;
+            homeSearchInput.value = query; // Populate search box
+            performSearch(query);
+        });
+    });
+
+    // Results Page Search Button
+    resultsSearchButton.addEventListener('click', () => {
+        performSearch(resultsSearchInput.value);
+    });
+
+    // Results Page Search Input (Enter key)
+    resultsSearchInput.addEventListener('keyup', (event) => {
+        if (event.key === 'Enter') {
+            performSearch(resultsSearchInput.value);
+        }
+    });
+
+    // Results Page Logo click to go back to home
+    resultsPageLogo.addEventListener('click', () => {
+        showPage('home');
+        homeSearchInput.value = ''; // Clear home search input
+        homeSearchInput.focus(); // Focus for next search
+    });
+
+    // --- Initial Load ---
+    loadKnowledgeBase(); // Start loading data and then hide overlay
+});
+    </script>
+</body>
+</html>
