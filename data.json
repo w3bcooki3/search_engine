@@ -1,0 +1,452 @@
+[
+  {
+    "id": 1,
+    "title": "OSINT Framework",
+    "description": "A comprehensive collection of free OSINT tools and resources categorized by type, maintained by Justin Nordine. Essential for intelligence gathering.",
+    "category": "OSINT",
+    "tags": ["framework", "tools", "public data", "reconnaissance", "intelligence"],
+    "link": "https://osintframework.com/",
+    "source": "Website"
+  },
+  {
+    "id": 2,
+    "title": "MITRE ATT&CK Framework",
+    "description": "A globally accessible knowledge base of adversary tactics and techniques based on real-world observations. Crucial for threat modeling and defense.",
+    "category": "Threat Intelligence",
+    "tags": ["TTPs", "adversary emulation", "framework", "red team", "blue team", "threat hunting"],
+    "link": "https://attack.mitre.org/",
+    "source": "Website"
+  },
+  {
+    "id": 3,
+    "title": "Volatility Framework",
+    "description": "An open-source memory forensics framework for extracting digital artifacts from volatile memory (RAM) samples. Key for incident response.",
+    "category": "DFIR",
+    "tags": ["memory forensics", "malware analysis", "incident response", "tool", "artifact analysis"],
+    "link": "https://www.volatilityfoundation.org/",
+    "source": "Software"
+  },
+  {
+    "id": 4,
+    "title": "Sigma Rules",
+    "description": "Generic and open signature format for SIEM systems, allowing security analysts to describe detected malicious behavior across various logs.",
+    "category": "SOC",
+    "tags": ["SIEM", "detection", "threat hunting", "rules", "log analysis", "alerting"],
+    "link": "https://github.com/SigmaHQ/sigma",
+    "source": "GitHub Repository"
+  },
+  {
+    "id": 5,
+    "title": "Awesome-Red-Teaming",
+    "description": "A curated list of Red Teaming frameworks, libraries, and software for penetration testers and red teamers to simulate realistic attacks.",
+    "category": "Red Team",
+    "tags": ["resources", "pentesting", "tools", "adversary simulation", "exploitation"],
+    "link": "https://github.com/yeyintminthuhtut/Awesome-Red-Teaming",
+    "source": "GitHub Repository"
+  },
+  {
+    "id": 6,
+    "title": "MalwareBazaar",
+    "description": "A project from abuse.ch that collects, vets, and shares malware samples to help IT-security researchers and threat analysts. Provides IOCs.",
+    "category": "Threat Intelligence",
+    "tags": ["malware", "samples", "IOCs", "analysis", "threat intelligence"],
+    "link": "https://bazaar.abuse.ch/",
+    "source": "Website"
+  },
+  {
+    "id": 7,
+    "title": "The SOC Analyst Guide",
+    "description": "A comprehensive guide for aspiring and current SOC analysts, covering essential skills, tools, and processes for effective security operations.",
+    "category": "SOC",
+    "tags": ["career", "guide", "blue team", "skills", "security operations"],
+    "link": "https://medium.com/@seifelsalafy/the-soc-analyst-guide-from-zero-to-hero-8d20e7a2b90b",
+    "source": "Blog Post"
+  },
+  {
+    "id": 8,
+    "title": "Wireshark",
+    "description": "The world’s foremost and widely used network protocol analyzer. Essential for network forensics and troubleshooting.",
+    "category": "DFIR",
+    "tags": ["network forensics", "packet analysis", "tool", "protocol analysis"],
+    "link": "https://www.wireshark.org/",
+    "source": "Software"
+  },
+  {
+    "id": 9,
+    "title": "Nmap (Network Mapper)",
+    "description": "A free and open-source utility for network discovery and security auditing. Widely used for port scanning and vulnerability assessment.",
+    "category": "Red Team",
+    "tags": ["network scanning", "vulnerability assessment", "port scan", "reconnaissance", "tool"],
+    "link": "https://nmap.org/",
+    "source": "Software"
+  },
+  {
+    "id": 10,
+    "title": "Shodan",
+    "description": "The search engine for the Internet of Things (IoT) and connected devices. Discover publicly accessible devices and services.",
+    "category": "OSINT",
+    "tags": ["IoT", "search engine", "device discovery", "vulnerability intelligence"],
+    "link": "https://www.shodan.io/",
+    "source": "Service"
+  },
+  {
+    "id": 11,
+    "title": "Metasploit Framework",
+    "description": "A penetration testing framework that makes it easy to write, test, and execute exploit code. A primary tool for red teamers.",
+    "category": "Red Team",
+    "tags": ["exploit", "penetration testing", "framework", "payloads", "vulnerability exploitation"],
+    "link": "https://www.metasploit.com/",
+    "source": "Software"
+  },
+  {
+    "id": 12,
+    "title": "Autopsy",
+    "description": "A leading open-source digital forensics platform used to analyze hard drives and smartphones. Supports various forensic tasks.",
+    "category": "DFIR",
+    "tags": ["digital forensics", "data recovery", "investigation", "tool"],
+    "link": "https://www.autopsy.com/",
+    "source": "Software"
+  },
+  {
+    "id": 13,
+    "title": "CyberChef",
+    "description": "The Cyber Swiss Army Knife - a web app for encryption, encoding, compression and data analysis. Indispensable for security analysts.",
+    "category": "SOC",
+    "tags": ["encoding", "decoding", "data analysis", "forensics", "tool"],
+    "link": "https://gchq.github.io/CyberChef/",
+    "source": "Web Tool"
+  },
+  {
+    "id": 14,
+    "title": "Have I Been Pwned?",
+    "description": "A free resource for anyone to check if their email address or phone number has been compromised in a data breach.",
+    "category": "OSINT",
+    "tags": ["data breach", "credential stuffing", "privacy", "security awareness"],
+    "link": "https://haveibeenpwned.com/",
+    "source": "Service"
+  },
+  {
+    "id": 15,
+    "title": "Kali Linux",
+    "description": "A Debian-derived Linux distribution designed for digital forensics and penetration testing. Comes with pre-installed security tools.",
+    "category": "Red Team",
+    "tags": ["operating system", "pentesting", "forensics", "security tools", "distribution"],
+    "link": "https://www.kali.org/",
+    "source": "Operating System"
+  },
+  {
+    "id": 16,
+    "title": "Snort",
+    "description": "An open-source network intrusion detection system (IDS) capable of performing real-time traffic analysis and packet logging.",
+    "category": "SOC",
+    "tags": ["IDS", "network security", "detection", "alerting", "traffic analysis"],
+    "link": "https://www.snort.org/",
+    "source": "Software"
+  },
+  {
+    "id": 17,
+    "title": "YARA Rules",
+    "description": "A pattern matching tool for malware researchers. Used to identify and classify malware samples based on textual or binary patterns.",
+    "category": "Malware Analysis",
+    "tags": ["malware", "pattern matching", "threat intelligence", "detection"],
+    "link": "https://yara.readthedocs.io/en/stable/",
+    "source": "Documentation"
+  },
+  {
+    "id": 18,
+    "title": "CISA Cybersecurity Advisories",
+    "description": "Official advisories and alerts from the Cybersecurity and Infrastructure Security Agency (CISA) on current threats and vulnerabilities.",
+    "category": "Threat Intelligence",
+    "tags": ["government", "advisories", "vulnerabilities", "alerts"],
+    "link": "https://www.cisa.gov/cybersecurity-advisories",
+    "source": "Government Website"
+  },
+  {
+    "id": 19,
+    "title": "BloodHound",
+    "description": "A tool that uses graph theory to reveal hidden and unintended relationships within an Active Directory environment, crucial for privilege escalation.",
+    "category": "Red Team",
+    "tags": ["Active Directory", "privilege escalation", "reconnaissance", "graph theory", "tool"],
+    "link": "https://github.com/BloodHoundAD/BloodHound",
+    "source": "GitHub Repository"
+  },
+  {
+    "id": 20,
+    "title": "Awesome-DFIR",
+    "description": "A community-curated list of delightful Digital Forensics and Incident Response resources, tools, and scripts.",
+    "category": "DFIR",
+    "tags": ["resources", "incident response", "digital forensics", "tools", "scripts"],
+    "link": "https://github.com/meirwah/awesome-incident-response",
+    "source": "GitHub Repository"
+  },
+  {
+    "id": 21,
+    "title": "Ghidorah (Reverse Engineering)",
+    "description": "A powerful open-source reverse engineering tool suite developed by the NSA.",
+    "category": "Malware Analysis",
+    "tags": ["reverse engineering", "disassembler", "debugger", "NSA", "tool"],
+    "link": "https://github.com/NationalSecurityAgency/ghidra",
+    "source": "GitHub Repository"
+  },
+  {
+    "id": 22,
+    "title": "Palo Alto Networks Blog",
+    "description": "Insights and analysis on cybersecurity threats, vulnerabilities, and industry trends from Palo Alto Networks experts.",
+    "category": "Threat Intelligence",
+    "tags": ["vendor", "blog", "threat analysis", "industry trends"],
+    "link": "https://unit42.paloaltonetworks.com/",
+    "source": "Blog"
+  },
+  {
+    "id": 23,
+    "title": "Splunk (Free/Dev)",
+    "description": "A leading platform for searching, monitoring, and analyzing machine-generated big data via a web-style interface.",
+    "category": "SOC",
+    "tags": ["SIEM", "log management", "data analysis", "monitoring", "platform"],
+    "link": "https://www.splunk.com/en_us/download/splunk-free.html",
+    "source": "Software"
+  },
+  {
+    "id": 24,
+    "title": "The Hacker News",
+    "description": "A leading, trusted, and independent cybersecurity news source. Provides comprehensive coverage of the latest cyber threats.",
+    "category": "News",
+    "tags": ["news", "updates", "cybersecurity trends", "vulnerabilities"],
+    "link": "https://thehackernews.com/",
+    "source": "Website"
+  },
+  {
+    "id": 25,
+    "title": "SANS Institute Reading Room",
+    "description": "A vast collection of free cybersecurity research papers and articles covering a wide range of topics.",
+    "category": "Education",
+    "tags": ["research", "papers", "training", "education", "best practices"],
+    "link": "https://www.sans.org/reading-room/",
+    "source": "Website"
+  },
+  {
+    "id": 26,
+    "title": "Burp Suite Community Edition",
+    "description": "An integrated platform for performing security testing of web applications. Essential for web pentesting.",
+    "category": "Red Team",
+    "tags": ["web testing", "pentesting", "proxy", "vulnerability scanning", "tool"],
+    "link": "https://portswigger.net/burp",
+    "source": "Software"
+  },
+  {
+    "id": 27,
+    "title": "Censys",
+    "description": "An attack surface management platform that continuously maps the internet and discovers internet-facing assets.",
+    "category": "OSINT",
+    "tags": ["attack surface", "internet mapping", "asset discovery", "reconnaissance"],
+    "link": "https://censys.io/",
+    "source": "Service"
+  },
+  {
+    "id": 28,
+    "title": "MISP (Malware Information Sharing Platform)",
+    "description": "An open-source threat intelligence platform for sharing, storing, and correlating indicators of compromise.",
+    "category": "Threat Intelligence",
+    "tags": ["IOCs", "threat intelligence", "sharing", "platform", "open source"],
+    "link": "https://www.misp-project.org/",
+    "source": "Software"
+  },
+  {
+    "id": 29,
+    "title": "Awesome-OSINT",
+    "description": "A GitHub repository compiling a list of resources for Open Source Intelligence (OSINT).",
+    "category": "OSINT",
+    "tags": ["resources", "open source intelligence", "tools", "guides"],
+    "link": "https://github.com/jivoi/awesome-osint",
+    "source": "GitHub Repository"
+  },
+  {
+    "id": 30,
+    "title": "Elastic Stack (ELK Stack)",
+    "description": "A group of open-source products from Elastic designed to help users take data from any source, in any format, and search, analyze, and visualize it in real-time.",
+    "category": "SOC",
+    "tags": ["SIEM", "log management", "data visualization", "elastic", "open source"],
+    "link": "https://www.elastic.co/elastic-stack/",
+    "source": "Software Suite"
+  },
+  {
+    "id": 31,
+    "title": "Responder",
+    "description": "A LLMNR, NBT-NS and MDNS poisoner, designed to answer specific queries and capture hashes from unauthenticated network traffic.",
+    "category": "Red Team",
+    "tags": ["network attack", "hash capture", "poisoning", "tool", "internal recon"],
+    "link": "https://github.com/SpiderLabs/Responder",
+    "source": "GitHub Repository"
+  },
+  {
+    "id": 32,
+    "title": "GRR Rapid Response",
+    "description": "An open-source incident response framework focused on remote live forensics. Allows collection and analysis of forensic data.",
+    "category": "DFIR",
+    "tags": ["incident response", "live forensics", "endpoint security", "tool", "open source"],
+    "link": "https://github.com/google/grr",
+    "source": "GitHub Repository"
+  },
+  {
+    "id": 33,
+    "title": "VirusTotal",
+    "description": "A free online service that analyzes suspicious files and URLs to detect types of malware using various antivirus engines and website blacklisting services.",
+    "category": "Threat Intelligence",
+    "tags": ["malware analysis", "IOCs", "URL analysis", "sandbox", "service"],
+    "link": "https://www.virustotal.com/",
+    "source": "Service"
+  },
+  {
+    "id": 34,
+    "title": "PowerShell Empire",
+    "description": "A post-exploitation framework built on PowerShell and Python. Offers a range of modules for privilege escalation and lateral movement.",
+    "category": "Red Team",
+    "tags": ["post-exploitation", "PowerShell", "framework", "lateral movement", "tool"],
+    "link": "https://github.com/EmpireProject/Empire",
+    "source": "GitHub Repository"
+  },
+  {
+    "id": 35,
+    "title": "Sysmon (Sysinternals)",
+    "description": "A Windows system service that monitors and logs system activity to the Windows event log, providing detailed information for security analysis.",
+    "category": "DFIR",
+    "tags": ["logging", "endpoint detection", "forensics", "Windows", "tool"],
+    "link": "https://learn.microsoft.com/en-us/sysinternals/downloads/sysmon",
+    "source": "Software"
+  },
+  {
+    "id": 36,
+    "title": "Threat Intelligence Platforms (TIPs) Overview",
+    "description": "An article discussing the role and benefits of various Threat Intelligence Platforms in cybersecurity operations.",
+    "category": "Threat Intelligence",
+    "tags": ["overview", "TIPs", "threat intelligence", "platform comparison"],
+    "link": "https://www.techtarget.com/whatis/definition/threat-intelligence-platform-TIP",
+    "source": "Article"
+  },
+  {
+    "id": 37,
+    "title": "OpenVAS / Greenbone Vulnerability Management",
+    "description": "A comprehensive open-source vulnerability scanning and management system. Identifies security weaknesses in networks and applications.",
+    "category": "Red Team",
+    "tags": ["vulnerability scanning", "vulnerability management", "tool", "assessment"],
+    "link": "https://www.greenbone.net/en/community-edition/",
+    "source": "Software"
+  },
+  {
+    "id": 38,
+    "title": "Security Onion",
+    "description": "A free and open-source Linux distribution for threat hunting, enterprise security monitoring, and log management.",
+    "category": "SOC",
+    "tags": ["SIEM", "IDS", "NIDS", "threat hunting", "distribution"],
+    "link": "https://securityonionsolutions.com/",
+    "source": "Operating System"
+  },
+  {
+    "id": 39,
+    "title": "OSINT Techniques for Social Media",
+    "description": "A guide exploring various open-source intelligence techniques specifically tailored for gathering information from social media platforms.",
+    "category": "OSINT",
+    "tags": ["social media", "intelligence gathering", "techniques", "guide"],
+    "link": "https://www.eccouncil.org/cybersecurity-exchange/ethical-hacking/osint-social-media-techniques/",
+    "source": "Article"
+  },
+  {
+    "id": 40,
+    "title": "Digital Forensics Basics: Chain of Custody",
+    "description": "An article explaining the critical concept of Chain of Custody in digital forensics, ensuring evidence integrity.",
+    "category": "DFIR",
+    "tags": ["forensics", "evidence", "chain of custody", "investigation"],
+    "link": "https://resources.infosecinstitute.com/topic/chain-of-custody-in-digital-forensics/",
+    "source": "Article"
+  },
+  {
+    "id": 41,
+    "title": "OWASP Top 10",
+    "description": "A standard awareness document for developers and web application security. Represents the most critical security risks to web applications.",
+    "category": "Web Security",
+    "tags": ["web application", "vulnerabilities", "OWASP", "security risks"],
+    "link": "https://owasp.org/www-project-top-ten/",
+    "source": "Standard"
+  },
+  {
+    "id": 42,
+    "title": "Hack The Box",
+    "description": "An online platform allowing individuals, companies, and universities to practice their penetration testing skills.",
+    "category": "Red Team",
+    "tags": ["CTF", "pentesting", "training", "hands-on"],
+    "link": "https://www.hackthebox.com/",
+    "source": "Platform"
+  },
+  {
+    "id": 43,
+    "title": "ThreatConnect",
+    "description": "A leading Threat Intelligence Platform (TIP) that aggregates, analyzes, and acts on threat intelligence.",
+    "category": "Threat Intelligence",
+    "tags": ["TIP", "threat intelligence", "automation", "platform"],
+    "link": "https://threatconnect.com/",
+    "source": "Vendor"
+  },
+  {
+    "id": 44,
+    "title": "Case Management for Incident Response",
+    "description": "Best practices and tools for managing cybersecurity incidents effectively from detection to resolution.",
+    "category": "DFIR",
+    "tags": ["incident response", "case management", "workflow", "process"],
+    "link": "https://www.nist.gov/cybersecurity/incident-response-guide",
+    "source": "Documentation"
+  },
+  {
+    "id": 45,
+    "title": "Blue Team Labs Online (BTLO)",
+    "description": "A platform offering free and paid labs to practice defensive cybersecurity skills, including SOC and DFIR scenarios.",
+    "category": "SOC",
+    "tags": ["blue team", "labs", "training", "hands-on", "detection"],
+    "link": "https://blueteamlabs.online/",
+    "source": "Platform"
+  },
+  {
+    "id": 46,
+    "title": "Maltego",
+    "description": "An open-source intelligence (OSINT) and graphical link analysis tool for gathering and connecting information.",
+    "category": "OSINT",
+    "tags": ["graph analysis", "reconnaissance", "data visualization", "tool"],
+    "link": "https://www.maltego.com/",
+    "source": "Software"
+  },
+  {
+    "id": 47,
+    "title": "Cybersecurity Certifications Guide",
+    "description": "An overview of popular cybersecurity certifications and career paths.",
+    "category": "Education",
+    "tags": ["certifications", "career", "training", "CISSP", "CompTIA"],
+    "link": "https://www.isc2.org/Certifications",
+    "source": "Website"
+  },
+  {
+    "id": 48,
+    "title": "XDR (Extended Detection and Response) Explained",
+    "description": "An article detailing the evolution from EDR to XDR and its benefits for holistic threat detection.",
+    "category": "SOC",
+    "tags": ["XDR", "EDR", "detection", "response", "security solutions"],
+    "link": "https://www.crowdstrike.com/cybersecurity-101/extended-detection-and-response-xdr/",
+    "source": "Article"
+  },
+  {
+    "id": 49,
+    "title": "Cobalt Strike",
+    "description": "A commercial red team framework that allows adversary simulations and post-exploitation activities.",
+    "category": "Red Team",
+    "tags": ["commercial", "red team", "framework", "post-exploitation", "beacon"],
+    "link": "https://www.cobaltstrike.com/",
+    "source": "Software"
+  },
+  {
+    "id": 50,
+    "title": "Deep Dive into File Carving",
+    "description": "A detailed technical article explaining the process and techniques of file carving in digital forensics.",
+    "category": "DFIR",
+    "tags": ["file carving", "data recovery", "forensics", "technical guide"],
+    "link": "https://www.sans.org/blog/file-carving-explained/",
+    "source": "Blog Post"
+  }
+]
